@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zona 1: Mengenal Koordinat Kartesius - Ruang Bermain</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --krem: #FFF7EC;
+    --krem-2: #F7EEE3;
+    --tinta: #3E2F25;
+    --tinta-lembut: #8A7563;
+    --jingga: #FF8A3D;
+    --biru: #3E8FEA;
+    --hijau: #34B36B;
+    --ungu: #8B62E6;
+    --merah: #F0577A;
+    --putih: #fff;
+    --b-sedang: 0 12px 30px -14px rgba(62,47,37,0.26);
+    --r-besar: 28px;
+    --r-sedang: 22px;
+  }
+  
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    color: var(--tinta);
+    background: #0B0B2A; /* Fallback warna angkasa */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  .latar {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background-image: url('Lanskap Kosmik Pastel Penuh Bintang.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .bungkus {
+    width: min(1000px, 100%);
+    margin-inline: auto;
+    padding: 24px;
+    position: relative;
+  }
+
+  header {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.85); /* Tambah latar kaca agar teks terbaca di angkasa */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--r-sedang);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+
+  h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    color: var(--tinta);
+    margin: 0;
+  }
+
+  p.sub {
+    font-weight: 700;
+    color: var(--tinta-lembut);
+    margin: 4px 0 20px;
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+  }
+
+  .materi-kartu {
+    background: var(--putih);
+    border: 3px dashed var(--biru);
+    border-radius: var(--r-sedang);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 24px rgba(62,143,234,0.1);
+  }
+
+  .materi-kartu h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-family: 'Baloo 2', cursive;
+    color: var(--biru);
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+  }
+
+  .materi-kartu p {
+    margin-top: 0;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .materi-kartu ul {
+    margin: 10px 0;
+    padding-left: 24px;
+    line-height: 1.6;
+  }
+
+  .materi-kartu li {
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .materi-kartu b {
+    color: var(--tinta);
+    background: var(--krem-2);
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+
+  .arena-kartu {
+    background: var(--putih);
+    border-radius: var(--r-besar);
+    padding: 24px;
+    box-shadow: var(--b-sedang);
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: center;
+  }
+
+  @media(max-width: 800px) {
+    .arena-kartu { grid-template-columns: 1fr; }
+  }
+
+  .grid-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: #FAF3E7;
+    border-radius: var(--r-sedang);
+    border: 3px solid #EAD8C3;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent; 
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    touch-action: none; 
+  }
+
+  .panel-kontrol {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--krem-2);
+    padding: 20px;
+    border-radius: var(--r-sedang);
+    height: 100%;
+    justify-content: center;
+  }
+
+  .pesan-maskot {
+    background: var(--putih);
+    padding: 16px 20px;
+    border-radius: 18px 18px 4px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(62,47,37,0.08);
+    min-height: 120px;
+  }
+
+  .pesan-maskot b { color: var(--jingga); }
+
+  .koordinat-info {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.2rem;
+    text-align: center;
+    background: var(--putih);
+    padding: 12px 10px;
+    border-radius: 14px;
+    border: 2px dashed var(--jingga);
+    line-height: 1.3;
+  }
+
+  .tbl {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 12px 20px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    background: var(--jingga);
+    color: var(--putih);
+    box-shadow: inset 0 -4px 0 #E2661C, 0 6px 14px -6px rgba(226,102,28,0.6);
+    transition: transform 0.1s;
+  }
+  .tbl:active { transform: translateY(2px); box-shadow: inset 0 -1px 0 #E2661C; }
+</style>
+</head>
+<body>
+
+<div class="latar"></div>
+
+<div class="bungkus">
+  <header>
+    <h1>🗺️ Menjelajah Peta Koordinat Kartesius</h1>
+    <p class="sub">Tahap 1: Kenali Sumbu X (mendatar), Sumbu Y (tegak), dan Kuadran sebelum mulai terbang!</p>
+  </header>
+
+  <!-- Ensiklopedia Mini / Materi Pengantar -->
+  <div class="materi-kartu">
+    <h2>📖 Apa itu Koordinat Kartesius & Kuadran?</h2>
+    <p>Sistem koordinat Kartesius adalah cara kita menentukan posisi menggunakan dua garis batas yang saling tegak lurus:</p>
+    <ul>
+      <li><b>Sumbu X (Garis Mendatar):</b> Nilainya positif jika ke kanan, dan negatif jika ke kiri.</li>
+      <li><b>Sumbu Y (Garis Tegak):</b> Nilainya positif jika ke atas, dan negatif jika ke bawah.</li>
+    </ul>
+    <p>Persilangan kedua sumbu ini membagi wilayah menjadi 4 ruangan yang disebut <b>Kuadran</b>. 
+       Coba ketuk peta di bawah ini untuk melihat warna dan penjelasan masing-masing kuadran!</p>
+  </div>
+
+  <div class="arena-kartu">
+    <!-- Bidang Kartesius Interaktif -->
+    <div class="grid-container">
+      <canvas id="kartesiusCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <!-- Panel Informasi & Interaksi -->
+    <div class="panel-kontrol">
+      <div class="koordinat-info" id="koordinatTampil">
+        Posisi: ( 0, 0 )<br>
+        <span style="font-size: 0.9rem; color: var(--tinta-lembut);">Titik Pusat</span>
+      </div>
+
+      <div class="pesan-maskot" id="pesanMaskot">
+        Halo! Ketuk sembarang titik di kotak peta sebelah kiri untuk mulai menjelajah kuadran!
+      </div>
+
+      <button class="tbl" onclick="resetTitik()">🔄 Ke Titik Pusat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('kartesiusCanvas');
+  const ctx = canvas.getContext('2d');
+  const infoTampil = document.getElementById('koordinatTampil');
+  const pesanMaskot = document.getElementById('pesanMaskot');
+
+  const ukuranCanvas = 400;
+  const gridRentang = 5; 
+  const step = ukuranCanvas / (gridRentang * 2);
+
+  let titikAktif = { x: 2, y: 3 }; 
+
+  function getKuadran(x, y) {
+    if (x > 0 && y > 0) return 1;
+    if (x < 0 && y > 0) return 2;
+    if (x < 0 && y < 0) return 3;
+    if (x > 0 && y > 0) return 4; // Ditangani secara presisi di bawah
+    if (x > 0 && y < 0) return 4;
+    if (x === 0 && y === 0) return 0;
+    if (x === 0) return -1;
+    if (y === 0) return -2;
+  }
+
+  function gambarKartesius() {
+    ctx.clearRect(0, 0, ukuranCanvas, ukuranCanvas);
+    const activeK = getKuadran(titikAktif.x, titikAktif.y);
+
+    // 1. LATAR BERSIH TANPA GELAP-GELAP (Hanya warna dasar terang)
+    ctx.fillStyle = '#FAF3E7';
+    ctx.fillRect(0, 0, ukuranCanvas, ukuranCanvas);
+
+    // 2. GAMBAR GARIS GRID HALUS
+    ctx.strokeStyle = '#EAD8C3';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= ukuranCanvas; i += step) {
+      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, ukuranCanvas); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(ukuranCanvas, i); ctx.stroke();
+    }
+
+    // 3. GAMBAR SUMBU X DAN Y (DASAR)
+    ctx.strokeStyle = '#3E2F25';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(0, ukuranCanvas / 2); ctx.lineTo(ukuranCanvas, ukuranCanvas / 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ukuranCanvas / 2, 0); ctx.lineTo(ukuranCanvas / 2, ukuranCanvas); ctx.stroke();
+
+    // 4. ANGKA LABEL SUMBU
+    ctx.fillStyle = '#8A7563';
+    ctx.font = 'bold 12px Nunito';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    for (let i = -gridRentang; i <= gridRentang; i++) {
+      if (i === 0) continue;
+      let px = ukuranCanvas / 2 + i * step;
+      let py = ukuranCanvas / 2 - i * step;
+      ctx.fillText(i, px, ukuranCanvas / 2 + 14);
+      ctx.fillText(i, ukuranCanvas / 2 - 14, py);
+    }
+    ctx.fillText('0', ukuranCanvas / 2 - 12, ukuranCanvas / 2 + 14);
+
+    let canvasX = ukuranCanvas / 2 + titikAktif.x * step;
+    let canvasY = ukuranCanvas / 2 - titikAktif.y * step;
+
+    // Garis putus-putus proyeksi bantu
+    ctx.strokeStyle = '#3E8FEA';
+    ctx.setLineDash([4, 4]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(canvasX, ukuranCanvas / 2); ctx.lineTo(canvasX, canvasY);
+    ctx.moveTo(ukuranCanvas / 2, canvasY); ctx.lineTo(canvasX, canvasY);
+    ctx.stroke();
+    ctx.setLineDash([]); 
+
+    // Lingkaran Titik Koordinat yang presisi
+    ctx.fillStyle = '#FF8A3D';
+    ctx.beginPath();
+    ctx.arc(canvasX, canvasY, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#3E2F25';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    updateTeksKuadran(activeK);
+  }
+
+  function updateTeksKuadran(kuadran) {
+    let namaK = "";
+    let teksK = "";
+    let warna = "var(--tinta-lembut)";
+
+    if (kuadran === 1) {
+      namaK = "Kuadran I"; warna = "var(--biru)";
+      teksK = `Titik ini berada di <b style="color:var(--biru)">Kuadran I</b>.<br>Koordinat x bernilai positif dan y bernilai positif.`;
+    } else if (kuadran === 2) {
+      namaK = "Kuadran II"; warna = "var(--merah)";
+      teksK = `Titik ini berada di <b style="color:var(--merah)">Kuadran II</b>.<br>Koordinat x bernilai negatif dan y bernilai positif.`;
+    } else if (kuadran === 3) {
+      namaK = "Kuadran III"; warna = "var(--jingga)";
+      teksK = `Titik ini berada di <b style="color:var(--jingga)">Kuadran III</b>.<br>Koordinat x bernilai negatif dan y bernilai negatif.`;
+    } else if (kuadran === 4) {
+      namaK = "Kuadran IV"; warna = "var(--hijau)";
+      teksK = `Titik ini berada di <b style="color:var(--hijau)">Kuadran IV</b>.<br>Koordinat x bernilai positif dan y bernilai negatif.`;
+    } else if (kuadran === 0) {
+      namaK = "Titik Pusat";
+      teksK = `Titik ini berada tepat di <b>Titik Pusat (Origin) (0,0)</b>.`;
+    } else if (kuadran === -1) {
+      namaK = "Sumbu Y";
+      teksK = `Titik berada tepat pada <b>Sumbu Y</b> (nilai x = 0).`;
+    } else if (kuadran === -2) {
+      namaK = "Sumbu X";
+      teksK = `Titik berada tepat pada <b>Sumbu X</b> (nilai y = 0).`;
+    }
+
+    infoTampil.innerHTML = `Posisi: ( <b>${titikAktif.x}</b>, <b>${titikAktif.y}</b> )<br><span style="font-size:0.9rem; color:${warna}; font-weight: 800;">${namaK}</span>`;
+    pesanMaskot.innerHTML = teksK;
+  }
+
+  function handleInput(clientX, clientY) {
+    const rect = canvas.getBoundingClientRect();
+    // Gunakan posisi piksel sesungguhnya agar klik sangat presisi dengan kursor/sentuhan
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const clickX = (clientX - rect.left) * scaleX;
+    const clickY = (clientY - rect.top) * scaleY;
+
+    // Perhitungan matematika koordinat yang lebih presisi mendekati titik terdekat grid
+    const mathX = Math.round((clickX - ukuranCanvas / 2) / step);
+    const mathY = Math.round(((ukuranCanvas / 2) - clickY) / step);
+
+    if (mathX >= -gridRentang && mathX <= gridRentang && mathY >= -gridRentang && mathY <= gridRentang) {
+      titikAktif = { x: mathX, y: mathY };
+      gambarKartesius();
+    }
+  }
+
+  canvas.addEventListener('click', (e) => {
+    handleInput(e.clientX, e.clientY);
+  });
+
+  canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault(); 
+    const touch = e.touches[0];
+    handleInput(touch.clientX, touch.clientY);
+  }, { passive: false });
+
+  function resetTitik() {
+    titikAktif = { x: 0, y: 0 };
+    gambarKartesius();
+  }
+
+  gambarKartesius();
+</script>
+
+</body>
+</html>

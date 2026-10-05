@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiket Masuk Misi - Transformasi Geometri</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tinta: #3E2F25;
+    --tinta-lembut: #8A7563;
+    --jingga: #FF8A3D;
+    --biru: #3E8FEA;
+    --putih: #ffffff;
+    --b-besar: 0 20px 40px -10px rgba(0,0,0,0.3);
+    --r-besar: 32px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--tinta);
+    background: #0B0B2A;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .latar {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image: url('Lanskap Kosmik Pastel Penuh Bintang.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .wadah-form {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 3px solid rgba(255,255,255,0.9);
+    border-radius: var(--r-besar);
+    padding: clamp(30px, 5vw, 50px);
+    text-align: center;
+    box-shadow: var(--b-besar), inset 0 0 20px rgba(255,255,255,0.5);
+    width: 90%;
+    max-width: 480px;
+    transform: scale(0.9);
+    opacity: 0;
+    animation: munculKaca 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes munculKaca {
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .ikon-astronot {
+    width: 100px;
+    height: 100px;
+    background: var(--biru);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -70px auto 20px;
+    border: 6px solid var(--putih);
+    box-shadow: 0 10px 20px rgba(62,143,234,0.4);
+    font-size: 3rem;
+  }
+
+  h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.8rem, 5vw, 2.2rem);
+    line-height: 1.2;
+    margin-bottom: 10px;
+    color: var(--tinta);
+  }
+
+  p.deskripsi {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--tinta-lembut);
+    margin-bottom: 30px;
+  }
+
+  .grup-input {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--tinta);
+    margin-bottom: 8px;
+    padding-left: 5px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 16px;
+    border: 3px solid #EAD8C3;
+    background: var(--putih);
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--tinta);
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  input[type="text"]:focus {
+    border-color: var(--biru);
+    box-shadow: 0 0 0 4px rgba(62,143,234,0.2);
+  }
+
+  input[type="text"]::placeholder {
+    color: #C1B4A6;
+    font-weight: 600;
+  }
+
+  .tbl-terbang {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    background: var(--jingga);
+    color: var(--putih);
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.4rem;
+    font-weight: 800;
+    padding: 16px;
+    border-radius: 999px;
+    border: 3px solid var(--tinta);
+    box-shadow: 0 6px 0 var(--tinta), 0 15px 20px rgba(255, 138, 61, 0.4);
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+
+  .tbl-terbang:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 var(--tinta), 0 20px 25px rgba(255, 138, 61, 0.5);
+    background: #ff9d5c;
+  }
+
+  .tbl-terbang:active {
+    transform: translateY(6px);
+    box-shadow: 0 0px 0 var(--tinta);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="latar"></div>
+
+<main class="wadah-form">
+  <div class="ikon-astronot">🚀</div>
+  
+  <h1>Tiket Masuk Misi!</h1>
+  <p class="deskripsi">Sebelum meluncur ke luar angkasa, silakan daftar dulu di pusat kendali.</p>
+  
+  <form id="formMasuk">
+    <div class="grup-input">
+      <label for="namaSiswa">Nama Penjelajah</label>
+      <input type="text" id="namaSiswa" placeholder="Ketik namamu di sini..." required autocomplete="off">
+    </div>
+    
+    <div class="grup-input">
+      <label for="asalSekolah">Pangkalan (Asal Sekolah)</label>
+      <input type="text" id="asalSekolah" placeholder="Misal: SMP Negeri 28 Malang" required autocomplete="off">
+    </div>
+
+    <button type="submit" class="tbl-terbang">
+      Mulai Misi!
+    </button>
+  </form>
+</main>
+
+<script>
+  document.getElementById('formMasuk').addEventListener('submit', function(e) {
+    e.preventDefault(); // Mencegah reload halaman bawaan browser
+    
+    // 1. Ambil data dari inputan siswa
+    const nama = document.getElementById('namaSiswa').value;
+    const sekolah = document.getElementById('asalSekolah').value;
+    
+    // 2. Simpan ke Local Storage browser
+    localStorage.setItem('geoQuest_Nama', nama);
+    localStorage.setItem('geoQuest_Sekolah', sekolah);
+    
+    // 3. Beri efek animasi/teks tombol saat ditekan
+    const tombol = this.querySelector('button');
+    tombol.innerHTML = "Meluncur... 🚀";
+    tombol.style.background = "var(--hijau)";
+    
+    // 4. Pindah ke Tahap 1 setelah jeda animasi selesai
+    setTimeout(() => {
+      window.location.href = "koordinat_kartesius_tahap1_2.html";
+    }, 800);
+  });
+</script>
+
+</body>
+</html>
