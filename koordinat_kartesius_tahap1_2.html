@@ -36,7 +36,6 @@
     padding-bottom: 30px;
   }
 
-  /* Latar Belakang Kosmik Pastel Penuh Bintang */
   .latar {
     position: fixed;
     inset: 0;
@@ -48,7 +47,6 @@
     background-repeat: no-repeat;
   }
 
-  /* Grid samar ala luar angkasa / matematika */
   .grid-pattern {
     position: fixed;
     inset: 0;
@@ -91,7 +89,6 @@
     font-size: clamp(0.9rem, 1.8vw, 1.05rem);
   }
 
-  /* Layout Utama: Kiri & Kanan di Layar Lebar, Menumpuk ke Bawah di HP */
   .layout-utama {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -105,7 +102,6 @@
     }
   }
 
-  /* Kartu Materi & Ensiklopedia */
   .materi-kartu {
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(12px);
@@ -154,7 +150,6 @@
     border-radius: 6px;
   }
 
-  /* Arena Peta Kartesius & Kontrol */
   .arena-kartu {
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(12px);
@@ -259,10 +254,9 @@
     <p class="sub">Tahap 1: Kenali Sumbu X, Sumbu Y, Absis, Ordinat, dan Kuadran</p>
   </header>
 
-  <!-- Layout Utama: Kiri (Materi Lengkap), Kanan (Arena Interaktif) -->
   <div class="layout-utama">
     
-    <!-- Kolom Kiri: Rangkuman Materi (Absis, Ordinat, Kuadran) -->
+    <!-- Kolom Kiri: Rangkuman Materi -->
     <div class="materi-kartu">
       <div>
         <h2>📖 Ensiklopedia Kartesius</h2>
@@ -279,12 +273,12 @@
       </div>
 
       <div class="nav-bawah">
-        <button class="tbl" onclick="window.location.href='peta_perjalanan.html'" style="background:var(--biru); box-shadow: inset 0 -4px 0 #286bc2, 0 6px 14px -6px rgba(40,107,194,0.6);">🗺️ Kembali ke Peta</button>
-        <button class="tbl" onclick="window.location.href='tiket.html'" style="background:var(--hijau); box-shadow: inset 0 -4px 0 #23854d, 0 6px 14px -6px rgba(35,133,77,0.6);">🚀 Lanjut Misi</button>
+        <button class="tbl" onclick="window.location.href='peta_perjalanan.html'" style="background:var(--biru); box-shadow: inset 0 -4px 0 #286bc2, 0 6px 14px -6px rgba(40,107,194,0.6);">🗺️️ Kembali ke Peta</button>
+        <button class="tbl" onclick="selesaiPos1()" style="background:var(--hijau); box-shadow: inset 0 -4px 0 #23854d, 0 6px 14px -6px rgba(35,133,77,0.6);">🚀 Selesai & Buka Pos 2</button>
       </div>
     </div>
 
-    <!-- Kolom Kanan: Arena Interaktif & Panel Kontrol -->
+    <!-- Kolom Kanan: Arena Interaktif -->
     <div class="arena-kartu">
       <div class="grid-container">
         <canvas id="kartesiusCanvas" width="400" height="400"></canvas>
@@ -438,7 +432,7 @@
       teksK = `Terletak pada Sumbu X. Absis (x) = <b>${titikAktif.x}</b>, Ordinat (y) = 0.`;
     }
 
-    infoTampil.innerHTML = `Posisi: ( <b>${titikAktif.x}</b>, <b>${titikAktif.y}</b> )<br><span style="font-size:0.82rem; color:${warna}; font-weight: 800;">Absis x=${titikAktif.x}, Ordinat y=${titikAktif.y} | ${namaK}</span>`;
+    infoTampil.innerHTML = `Posisi: ( <b>${titikAktif.y ? titikAktif.x : titikAktif.x}</b>, <b>${titikAktif.y}</b> )<br><span style="font-size:0.82rem; color:${warna}; font-weight: 800;">Absis x=${titikAktif.x}, Ordinat y=${titikAktif.y} | ${namaK}</span>`;
     pesanMaskot.innerHTML = teksK;
   }
 
@@ -472,6 +466,15 @@
   function resetTitik() {
     titikAktif = { x: 0, y: 0 };
     gambarKartesius();
+  }
+
+  // Fungsi saat siswa menekan tombol Selesai Pos 1
+  function selesaiPos1() {
+    let currentMax = parseInt(localStorage.getItem('geoQuest_MaxLevel') || '1');
+    if (currentMax < 2) {
+      localStorage.setItem('geoQuest_MaxLevel', '2');
+    }
+    window.location.href = "peta_perjalanan.html";
   }
 
   gambarKartesius();
