@@ -267,14 +267,31 @@
         return;
       }
 
+      // Hubungkan masing-masing pos ke file HTML tujuannya
       if (idLevel === 1) {
         window.location.href = "koordinat_kartesius_tahap1_2.html";
-      } else {
-        alert(`Mengarahkan ke Pos ${idLevel}: Selamat belajar!`);
-        if (idLevel === maxLevel && maxLevel < 12) {
-          localStorage.setItem('geoQuest_MaxLevel', maxLevel + 1);
-          perbaruiPeta();
-        }
+      } else if (idLevel === 2) {
+        window.location.href = "pos2_tes_koordinat.html"; // Ganti dengan nama file Pos 2 Anda
+      } else if (idLevel === 3) {
+        window.location.href = "refleksi.html";           // Ganti dengan nama file Pos 3 Anda
+      } else if (idLevel === 4) {
+        window.location.href = "pos4_tes_refleksi.html";  // Ganti dengan nama file Pos 4 Anda
+      } else if (idLevel === 5) {
+        window.location.href = "translasi.html";          // Ganti dengan nama file Pos 5 Anda
+      } else if (idLevel === 6) {
+        window.location.href = "pos6_tes_translasi.html"; // Ganti dengan nama file Pos 6 Anda
+      } else if (idLevel === 7) {
+        window.location.href = "rotasi.html";             // Ganti dengan nama file Pos 7 Anda
+      } else if (idLevel === 8) {
+        window.location.href = "pos8_tes_rotasi.html";    // Ganti dengan nama file Pos 8 Anda
+      } else if (idLevel === 9) {
+        window.location.href = "dilatasi.html";           // Ganti dengan nama file Pos 9 Anda
+      } else if (idLevel === 10) {
+        window.location.href = "pos10_tes_dilatasi.html"; // Ganti dengan nama file Pos 10 Anda
+      } else if (idLevel === 11) {
+        window.location.href = "pos11_menengah.html";     // Ganti dengan nama file Pos 11 Anda
+      } else if (idLevel === 12) {
+        window.location.href = "final_tes.html";          // Ganti dengan nama file Final Tes Anda
       }
     }
 
