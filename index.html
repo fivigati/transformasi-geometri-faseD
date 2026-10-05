@@ -28,7 +28,7 @@
   body {
     font-family: 'Nunito', sans-serif;
     color: var(--tinta);
-    background: #0B0B2A; /* Fallback warna gelap angkasa */
+    background: #0B0B2A;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
@@ -36,7 +36,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    touch-action: none; /* Mencegah pull-to-refresh di mobile */
+    touch-action: none;
   }
 
   .latar {
@@ -49,12 +49,11 @@
     background-repeat: no-repeat;
   }
 
-  /* Grid samar-samar ala buku matematika */
   .grid-pattern {
     position: absolute;
     inset: 0;
     z-index: 2;
-    opacity: 0.15; /* Diperhalus agar bintang tetap terlihat */
+    opacity: 0.15;
     background-size: 40px 40px;
     background-image: 
       linear-gradient(to right, #ffffff 1px, transparent 1px),
@@ -66,7 +65,7 @@
   .wadah-utama {
     position: relative;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.75); /* Kaca sedikit lebih tebal agar kontras */
+    background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 3px solid rgba(255,255,255,0.8);
@@ -172,18 +171,15 @@
     position: absolute;
     inset: 0;
     z-index: 5;
-    pointer-events: none; /* Kursor tembus ke layar bawah */
+    pointer-events: none;
   }
 
   .karakter {
     position: absolute;
     filter: drop-shadow(0 10px 15px rgba(62,47,37,0.15));
-    transition: transform 0.1s ease-out; /* Untuk efek paralaks halus */
+    transition: transform 0.1s ease-out;
   }
 
-  /* Animasi Khusus Masing-Masing Karakter Transformasi */
-  
-  /* 1. Translasi (Segitiga Biru Meluncur) */
   .translasi-obj {
     top: 15%;
     left: 10%;
@@ -194,7 +190,6 @@
     100% { transform: translateX(100px) rotate(10deg); }
   }
 
-  /* 2. Rotasi (Persegi Hijau Berputar) */
   .rotasi-obj {
     bottom: 20%;
     right: 15%;
@@ -205,7 +200,6 @@
     100% { transform: rotate(360deg); }
   }
 
-  /* 3. Dilatasi (Lingkaran Kuning Berdenyut) */
   .dilatasi-obj {
     top: 20%;
     right: 10%;
@@ -216,7 +210,6 @@
     100% { transform: scale(1.3); }
   }
 
-  /* 4. Refleksi (Dua Setengah Lingkaran Merah Memantul) */
   .refleksi-obj {
     bottom: 15%;
     left: 15%;
@@ -230,7 +223,6 @@
   @keyframes cermin1 { 0% { transform: translateX(10px); } 100% { transform: translateX(-10px); } }
   @keyframes cermin2 { 0% { transform: translateX(-10px) scaleX(-1); } 100% { transform: translateX(10px) scaleX(-1); } }
 
-  /* Garis cermin */
   .garis-cermin {
     height: 80px;
     width: 4px;
@@ -239,7 +231,6 @@
     border-style: dashed;
   }
 
-  /* Wajah Lucu pada SVG */
   .mata { fill: var(--tinta); }
   .pipi { fill: rgba(255, 138, 61, 0.6); }
   .mulut { fill: none; stroke: var(--tinta); stroke-width: 4; stroke-linecap: round; }
@@ -251,23 +242,17 @@
     .rotasi-obj { bottom: 5%; right: 0; }
     .refleksi-obj { bottom: 5%; left: 0; }
   }
-
 </style>
 </head>
 <body>
 
-<!-- Latar Belakang -->
 <div class="latar"></div>
 <div class="grid-pattern"></div>
 
 <div class="kanvas-animasi" id="kanvasParalaks">
-  
-  <!-- Segitiga (Translasi) -->
   <div class="karakter translasi-obj" data-speed="3">
     <svg width="120" height="120" viewBox="0 0 120 120">
-      <!-- Bentuk Segitiga -->
       <polygon points="60,10 110,100 10,100" fill="var(--biru)" stroke="var(--tinta)" stroke-width="6" stroke-linejoin="round"/>
-      <!-- Wajah Senyum -->
       <circle cx="45" cy="70" r="6" class="mata"/>
       <circle cx="75" cy="70" r="6" class="mata"/>
       <ellipse cx="35" cy="75" rx="8" ry="4" class="pipi"/>
@@ -276,65 +261,50 @@
     </svg>
   </div>
 
-  <!-- Persegi (Rotasi) -->
   <div class="karakter rotasi-obj" data-speed="-4">
     <svg width="100" height="100" viewBox="0 0 100 100">
-      <!-- Bentuk Persegi -->
       <rect x="10" y="10" width="80" height="80" rx="15" fill="var(--hijau)" stroke="var(--tinta)" stroke-width="6"/>
-      <!-- Wajah Kaget/Pusing -->
       <circle cx="35" cy="40" r="7" class="mata"/>
       <circle cx="65" cy="40" r="7" class="mata"/>
-      <path d="M 35 40 L 40 45 M 35 45 L 40 40" stroke="var(--krem)" stroke-width="3" stroke-linecap="round"/> <!-- Mata bintang silang -->
+      <path d="M 35 40 L 40 45 M 35 45 L 40 40" stroke="var(--krem)" stroke-width="3" stroke-linecap="round"/>
       <path d="M 60 40 L 65 45 M 60 45 L 65 40" stroke="var(--krem)" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="50" cy="65" r="8" fill="var(--tinta)"/> <!-- Mulut O -->
+      <circle cx="50" cy="65" r="8" fill="var(--tinta)"/>
     </svg>
   </div>
 
-  <!-- Lingkaran (Dilatasi) -->
   <div class="karakter dilatasi-obj" data-speed="2">
     <svg width="110" height="110" viewBox="0 0 110 110">
-      <!-- Bentuk Lingkaran -->
       <circle cx="55" cy="55" r="45" fill="var(--kuning)" stroke="var(--tinta)" stroke-width="6"/>
-      <!-- Wajah Semangat -->
       <path d="M 35 45 Q 40 35 45 45" fill="none" stroke="var(--tinta)" stroke-width="5" stroke-linecap="round"/>
       <path d="M 65 45 Q 70 35 75 45" fill="none" stroke="var(--tinta)" stroke-width="5" stroke-linecap="round"/>
       <path d="M 40 60 Q 55 80 70 60 Z" fill="var(--merah)" stroke="var(--tinta)" stroke-width="4" stroke-linejoin="round"/>
     </svg>
   </div>
 
-  <!-- Setengah Lingkaran (Refleksi) -->
   <div class="karakter refleksi-obj" data-speed="-3">
-    <!-- Bentuk Kiri -->
     <svg width="60" height="100" viewBox="0 0 60 100" class="cermin-kiri">
       <path d="M 50 10 A 40 40 0 0 0 50 90 Z" fill="var(--merah)" stroke="var(--tinta)" stroke-width="6" stroke-linejoin="round"/>
       <circle cx="35" cy="40" r="5" class="mata"/>
       <path d="M 40 60 Q 30 70 30 60" class="mulut"/>
     </svg>
-    
-    <!-- Garis Cermin -->
     <div class="garis-cermin"></div>
-
-    <!-- Bentuk Kanan (Cermin) -->
     <svg width="60" height="100" viewBox="0 0 60 100" class="cermin-kanan">
       <path d="M 50 10 A 40 40 0 0 0 50 90 Z" fill="var(--merah)" stroke="var(--tinta)" stroke-width="6" stroke-linejoin="round"/>
       <circle cx="35" cy="40" r="5" class="mata"/>
       <path d="M 40 60 Q 30 70 30 60" class="mulut"/>
     </svg>
   </div>
-
 </div>
 
 <main class="wadah-utama">
   <div class="label-fase">Matematika SMP - Fase D</div>
-  
   <h1 class="judul">Transformasi<br><span>Geometri</span></h1>
-  
   <p class="deskripsi">
     Bersiaplah untuk meluncur, berputar, bercermin, dan membesar! Mari pecahkan teka-teki ruang koordinat dengan cara yang seru.
   </p>
   
-  <a href="koordinat_kartesius_tahap1_2.html" class="tbl-mulai">
-    <!-- Ikon Play Bintang -->
+  <!-- Ubah href ke halaman tiket masuk / input nama atau peta perjalanan -->
+  <a href="tiket.html" class="tbl-mulai">
     <svg viewBox="0 0 24 24">
       <path d="M8 5.14V19.07a1 1 0 0 0 1.5.86l10.4-6.96a1 1 0 0 0 0-1.68L9.5 4.28A1 1 0 0 0 8 5.14Z"/>
     </svg>
@@ -350,56 +320,31 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const kanvasParalaks = document.getElementById('kanvasParalaks');
     const karakterList = document.querySelectorAll('.karakter');
-    
-    let kursorX = 0;
-    let kursorY = 0;
-    let targetX = 0;
-    let targetY = 0;
+    let targetX = 0, targetY = 0, kursorX = 0, kursorY = 0;
 
-    // Fungsi untuk memperbarui posisi target saat kursor bergerak / sentuh
     function updateKursor(x, y) {
-      // Normalisasi posisi dari -1 (kiri/atas) ke 1 (kanan/bawah)
       targetX = (x / window.innerWidth) * 2 - 1;
       targetY = (y / window.innerHeight) * 2 - 1;
     }
 
-    window.addEventListener('mousemove', (e) => {
-      updateKursor(e.clientX, e.clientY);
-    });
-
-    // Dukungan untuk perangkat sentuh (HP/Tablet)
+    window.addEventListener('mousemove', (e) => updateKursor(e.clientX, e.clientY));
     window.addEventListener('touchmove', (e) => {
-      if(e.touches.length > 0) {
-        updateKursor(e.touches[0].clientX, e.touches[0].clientY);
-      }
+      if(e.touches.length > 0) updateKursor(e.touches[0].clientX, e.touches[0].clientY);
     });
 
-    // Loop animasi yang mulus
     function renderParalaks() {
-      // Lerp (Linear Interpolation) agar gerakannya halus (karet)
       kursorX += (targetX - kursorX) * 0.1;
       kursorY += (targetY - kursorY) * 0.1;
 
       karakterList.forEach(karakter => {
         const kecepatan = parseFloat(karakter.getAttribute('data-speed'));
-        
-        // Menghitung pergeseran paralaks
-        const xPos = kursorX * kecepatan * 20; // 20 adalah intensitas maksimal
-        const yPos = kursorY * kecepatan * 20;
-        
-        // Kita gunakan CSS Custom Property untuk menimpa transform
-        // tanpa merusak animasi keyframes (luncur, putar, dll) yang berjalan di base class
-        // Trick: Kita bungkus karakter dalam wrapper jika ingin paralaks 100% sempurna tanpa konflik keyframes.
-        // Karena di CSS kita pakai animation transform, kita set margin atau padding via JS saja agar aman.
-        karakter.style.marginLeft = `${xPos}px`;
-        karakter.style.marginTop = `${yPos}px`;
+        karakter.style.marginLeft = `${kursorX * kecepatan * 20}px`;
+        karakter.style.marginTop = `${kursorY * kecepatan * 20}px`;
       });
 
       requestAnimationFrame(renderParalaks);
     }
-
     renderParalaks();
   });
 </script>
