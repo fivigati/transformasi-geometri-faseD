@@ -27,13 +27,15 @@
     margin: 0;
     font-family: 'Nunito', sans-serif;
     color: var(--tinta);
-    background: #0B0B2A; /* Fallback warna angkasa */
+    background: #0B0B2A;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    position: relative;
   }
 
+  /* Latar Belakang Kosmik Pastel Penuh Bintang */
   .latar {
     position: fixed;
     inset: 0;
@@ -45,46 +47,57 @@
     background-repeat: no-repeat;
   }
 
+  /* Grid samar ala luar angkasa / matematika */
+  .grid-pattern {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.12;
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, #ffffff 1px, transparent 1px),
+      linear-gradient(to bottom, #ffffff 1px, transparent 1px);
+  }
+
   .bungkus {
     width: min(1000px, 100%);
     margin-inline: auto;
     padding: 24px;
     position: relative;
+    z-index: 10;
   }
 
   header {
     text-align: center;
-    padding: 20px;
-    margin-bottom: 24px;
-    background: rgba(255, 255, 255, 0.85); /* Tambah latar kaca agar teks terbaca di angkasa */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: var(--r-sedang);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    border: 2px solid rgba(255,255,255,0.5);
+    padding: 20px 0 10px;
   }
 
   h1 {
     font-family: 'Baloo 2', cursive;
     font-size: clamp(1.8rem, 4vw, 2.6rem);
-    color: var(--tinta);
+    color: var(--putih);
+    text-shadow: 2px 2px 0px var(--tinta);
     margin: 0;
   }
 
   p.sub {
     font-weight: 700;
-    color: var(--tinta-lembut);
+    color: #FFC43D;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     margin: 4px 0 20px;
     font-size: clamp(0.9rem, 2vw, 1.05rem);
   }
 
   .materi-kartu {
-    background: var(--putih);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 3px dashed var(--biru);
     border-radius: var(--r-sedang);
     padding: 24px;
     margin-bottom: 24px;
-    box-shadow: 0 8px 24px rgba(62,143,234,0.1);
+    box-shadow: 0 8px 24px rgba(62,143,234,0.2);
   }
 
   .materi-kartu h2 {
@@ -120,7 +133,9 @@
   }
 
   .arena-kartu {
-    background: var(--putih);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: var(--r-besar);
     padding: 24px;
     box-shadow: var(--b-sedang);
@@ -210,6 +225,7 @@
 <body>
 
 <div class="latar"></div>
+<div class="grid-pattern"></div>
 
 <div class="bungkus">
   <header>
@@ -267,7 +283,6 @@
     if (x > 0 && y > 0) return 1;
     if (x < 0 && y > 0) return 2;
     if (x < 0 && y < 0) return 3;
-    if (x > 0 && y > 0) return 4; // Ditangani secara presisi di bawah
     if (x > 0 && y < 0) return 4;
     if (x === 0 && y === 0) return 0;
     if (x === 0) return -1;
@@ -278,11 +293,15 @@
     ctx.clearRect(0, 0, ukuranCanvas, ukuranCanvas);
     const activeK = getKuadran(titikAktif.x, titikAktif.y);
 
-    // 1. LATAR BERSIH TANPA GELAP-GELAP (Hanya warna dasar terang)
-    ctx.fillStyle = '#FAF3E7';
-    ctx.fillRect(0, 0, ukuranCanvas, ukuranCanvas);
+    ctx.fillStyle = activeK === 1 ? 'rgba(62, 143, 234, 0.25)' : 'rgba(62, 143, 234, 0.05)';
+    ctx.fillRect(ukuranCanvas/2, 0, ukuranCanvas/2, ukuranCanvas/2);
+    ctx.fillStyle = activeK === 2 ? 'rgba(240, 87, 122, 0.25)' : 'rgba(240, 87, 122, 0.05)';
+    ctx.fillRect(0, 0, ukuranCanvas/2, ukuranCanvas/2);
+    ctx.fillStyle = activeK === 3 ? 'rgba(255, 138, 61, 0.25)' : 'rgba(255, 138, 61, 0.05)';
+    ctx.fillRect(0, ukuranCanvas/2, ukuranCanvas/2, ukuranCanvas/2);
+    ctx.fillStyle = activeK === 4 ? 'rgba(52, 179, 107, 0.25)' : 'rgba(52, 179, 107, 0.05)';
+    ctx.fillRect(ukuranCanvas/2, ukuranCanvas/2, ukuranCanvas/2, ukuranCanvas/2);
 
-    // 2. GAMBAR GARIS GRID HALUS
     ctx.strokeStyle = '#EAD8C3';
     ctx.lineWidth = 1;
     for (let i = 0; i <= ukuranCanvas; i += step) {
@@ -290,13 +309,30 @@
       ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(ukuranCanvas, i); ctx.stroke();
     }
 
-    // 3. GAMBAR SUMBU X DAN Y (DASAR)
     ctx.strokeStyle = '#3E2F25';
     ctx.lineWidth = 2.5;
     ctx.beginPath(); ctx.moveTo(0, ukuranCanvas / 2); ctx.lineTo(ukuranCanvas, ukuranCanvas / 2); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(ukuranCanvas / 2, 0); ctx.lineTo(ukuranCanvas / 2, ukuranCanvas); ctx.stroke();
 
-    // 4. ANGKA LABEL SUMBU
+    ctx.lineWidth = 4;
+    if (activeK === 1) {
+      ctx.strokeStyle = '#3E8FEA';
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(ukuranCanvas, ukuranCanvas/2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(ukuranCanvas/2, 0); ctx.stroke();
+    } else if (activeK === 2) {
+      ctx.strokeStyle = '#F0577A';
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(0, ukuranCanvas/2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(ukuranCanvas/2, 0); ctx.stroke();
+    } else if (activeK === 3) {
+      ctx.strokeStyle = '#FF8A3D';
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(0, ukuranCanvas/2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(ukuranCanvas/2, ukuranCanvas); ctx.stroke();
+    } else if (activeK === 4) {
+      ctx.strokeStyle = '#34B36B';
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(ukuranCanvas, ukuranCanvas/2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ukuranCanvas/2, ukuranCanvas/2); ctx.lineTo(ukuranCanvas/2, ukuranCanvas); ctx.stroke();
+    }
+
     ctx.fillStyle = '#8A7563';
     ctx.font = 'bold 12px Nunito';
     ctx.textAlign = 'center';
@@ -314,7 +350,6 @@
     let canvasX = ukuranCanvas / 2 + titikAktif.x * step;
     let canvasY = ukuranCanvas / 2 - titikAktif.y * step;
 
-    // Garis putus-putus proyeksi bantu
     ctx.strokeStyle = '#3E8FEA';
     ctx.setLineDash([4, 4]);
     ctx.lineWidth = 1.5;
@@ -324,7 +359,6 @@
     ctx.stroke();
     ctx.setLineDash([]); 
 
-    // Lingkaran Titik Koordinat yang presisi
     ctx.fillStyle = '#FF8A3D';
     ctx.beginPath();
     ctx.arc(canvasX, canvasY, 9, 0, Math.PI * 2);
@@ -343,25 +377,25 @@
 
     if (kuadran === 1) {
       namaK = "Kuadran I"; warna = "var(--biru)";
-      teksK = `Titik ini berada di <b style="color:var(--biru)">Kuadran I</b>.<br>Koordinat x bernilai positif dan y bernilai positif.`;
+      teksK = `Titik ini berada di <b style="color:var(--biru)">Kuadran I</b>.<br>Daerah ini dibatasi oleh <b>Sumbu X positif</b> (ke kanan) dan <b>Sumbu Y positif</b> (ke atas).`;
     } else if (kuadran === 2) {
       namaK = "Kuadran II"; warna = "var(--merah)";
-      teksK = `Titik ini berada di <b style="color:var(--merah)">Kuadran II</b>.<br>Koordinat x bernilai negatif dan y bernilai positif.`;
+      teksK = `Titik ini berada di <b style="color:var(--merah)">Kuadran II</b>.<br>Daerah ini dibatasi oleh <b>Sumbu X negatif</b> (ke kiri) dan <b>Sumbu Y positif</b> (ke atas).`;
     } else if (kuadran === 3) {
       namaK = "Kuadran III"; warna = "var(--jingga)";
-      teksK = `Titik ini berada di <b style="color:var(--jingga)">Kuadran III</b>.<br>Koordinat x bernilai negatif dan y bernilai negatif.`;
+      teksK = `Titik ini berada di <b style="color:var(--jingga)">Kuadran III</b>.<br>Daerah ini dibatasi oleh <b>Sumbu X negatif</b> (ke kiri) dan <b>Sumbu Y negatif</b> (ke bawah).`;
     } else if (kuadran === 4) {
       namaK = "Kuadran IV"; warna = "var(--hijau)";
-      teksK = `Titik ini berada di <b style="color:var(--hijau)">Kuadran IV</b>.<br>Koordinat x bernilai positif dan y bernilai negatif.`;
+      teksK = `Titik ini berada di <b style="color:var(--hijau)">Kuadran IV</b>.<br>Daerah ini dibatasi oleh <b>Sumbu X positif</b> (ke kanan) dan <b>Sumbu Y negatif</b> (ke bawah).`;
     } else if (kuadran === 0) {
       namaK = "Titik Pusat";
-      teksK = `Titik ini berada tepat di <b>Titik Pusat (Origin) (0,0)</b>.`;
+      teksK = `Titik ini berada tepat di <b>Titik Pusat (Origin)</b>, yaitu persimpangan antara Sumbu X dan Sumbu Y.`;
     } else if (kuadran === -1) {
       namaK = "Sumbu Y";
-      teksK = `Titik berada tepat pada <b>Sumbu Y</b> (nilai x = 0).`;
+      teksK = `Titik berada tepat pada <b>Sumbu Y</b>.<br>Titik ini tidak masuk ke kuadran mana pun karena posisinya tepat membagi wilayah kiri dan kanan.`;
     } else if (kuadran === -2) {
       namaK = "Sumbu X";
-      teksK = `Titik berada tepat pada <b>Sumbu X</b> (nilai y = 0).`;
+      teksK = `Titik berada tepat pada <b>Sumbu X</b>.<br>Titik ini tidak masuk ke kuadran mana pun karena posisinya tepat membagi wilayah atas dan bawah.`;
     }
 
     infoTampil.innerHTML = `Posisi: ( <b>${titikAktif.x}</b>, <b>${titikAktif.y}</b> )<br><span style="font-size:0.9rem; color:${warna}; font-weight: 800;">${namaK}</span>`;
@@ -370,14 +404,12 @@
 
   function handleInput(clientX, clientY) {
     const rect = canvas.getBoundingClientRect();
-    // Gunakan posisi piksel sesungguhnya agar klik sangat presisi dengan kursor/sentuhan
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
     const clickX = (clientX - rect.left) * scaleX;
     const clickY = (clientY - rect.top) * scaleY;
 
-    // Perhitungan matematika koordinat yang lebih presisi mendekati titik terdekat grid
     const mathX = Math.round((clickX - ukuranCanvas / 2) / step);
     const mathY = Math.round(((ukuranCanvas / 2) - clickY) / step);
 
