@@ -10,6 +10,7 @@
     --tinta: #3E2F25;
     --tinta-lembut: #8A7563;
     --jingga: #FF8A3D;
+    --hijau: #34B36B;
     --biru: #3E8FEA;
     --putih: #ffffff;
     --b-besar: 0 20px 40px -10px rgba(0,0,0,0.3);
@@ -161,7 +162,6 @@
     transform: translateY(6px);
     box-shadow: 0 0px 0 var(--tinta);
   }
-
 </style>
 </head>
 <body>
@@ -193,24 +193,21 @@
 
 <script>
   document.getElementById('formMasuk').addEventListener('submit', function(e) {
-    e.preventDefault(); // Mencegah reload halaman bawaan browser
+    e.preventDefault(); 
     
-    // 1. Ambil data dari inputan siswa
     const nama = document.getElementById('namaSiswa').value;
     const sekolah = document.getElementById('asalSekolah').value;
     
-    // 2. Simpan ke Local Storage browser
     localStorage.setItem('geoQuest_Nama', nama);
     localStorage.setItem('geoQuest_Sekolah', sekolah);
     
-    // 3. Beri efek animasi/teks tombol saat ditekan
     const tombol = this.querySelector('button');
-    tombol.innerHTML = "Meluncur... 🚀";
+    tombol.innerHTML = "Meluncur ke Peta... 🚀";
     tombol.style.background = "var(--hijau)";
     
-    // 4. Pindah ke Tahap 1 setelah jeda animasi selesai
+    // Diarahkan ke halaman peta perjalanan galaksi
     setTimeout(() => {
-      window.location.href = "koordinat_kartesius_tahap1_2.html";
+      window.location.href = "peta_perjalanan.html";
     }, 800);
   });
 </script>
