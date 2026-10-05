@@ -262,6 +262,9 @@
     function pilihLevel(idLevel) {
       const maxLevel = getMaxLevelTerbuka();
 
+      function pilihLevel(idLevel) {
+      const maxLevel = getMaxLevelTerbuka();
+
       if (idLevel > maxLevel) {
         alert("🔒 Pulau ini masih terkunci! Selesaikan misi sebelumnya terlebih dahulu ya.");
         return;
@@ -269,12 +272,28 @@
 
       if (idLevel === 1) {
         window.location.href = "koordinat_kartesius_tahap1_2.html";
-      } else {
-        alert(`Mengarahkan ke Pos ${idLevel}: Selamat belajar!`);
-        if (idLevel === maxLevel && maxLevel < 12) {
-          localStorage.setItem('geoQuest_MaxLevel', maxLevel + 1);
-          perbaruiPeta();
-        }
+      } else if (idLevel === 2) {
+        window.location.href = "pos2_tes_koordinat.html";
+      } else if (idLevel === 3) {
+        window.location.href = "refleksi.html";
+      } else if (idLevel === 4) {
+        window.location.href = "pos4_tes_refleksi.html";
+      } else if (idLevel === 5) {
+        window.location.href = "translasi.html";
+      } else if (idLevel === 6) {
+        window.location.href = "pos6_tes_translasi.html";
+      } else if (idLevel === 7) {
+        window.location.href = "rotasi.html";
+      } else if (idLevel === 8) {
+        window.location.href = "pos8_tes_rotasi.html";
+      } else if (idLevel === 9) {
+        window.location.href = "dilatasi.html";
+      } else if (idLevel === 10) {
+        window.location.href = "pos10_tes_dilatasi.html";
+      } else if (idLevel === 11) {
+        window.location.href = "pos11_menengah.html";
+      } else if (idLevel === 12) {
+        window.location.href = "final_tes.html";
       }
     }
 
